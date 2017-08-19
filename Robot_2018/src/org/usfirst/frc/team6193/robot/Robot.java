@@ -1,6 +1,9 @@
 
 package org.usfirst.frc.team6193.robot;
 
+import org.omg.PortableServer.AdapterActivator;
+import org.usfirst.frc.team6193.robot.subsystems.DrivelineSubsystem;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -17,7 +20,7 @@ public class Robot extends IterativeRobot {
 
 
 	public static OI oi;
-
+	public static DrivelineSubsystem driveline;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -26,7 +29,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-
+		driveline = new DrivelineSubsystem();
+		
 	}
 
 	/**
