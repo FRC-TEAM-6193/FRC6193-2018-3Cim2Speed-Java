@@ -270,7 +270,7 @@ public class RobotDrive_3C2S implements MotorSafety {
 		double leftMotorSpeed = m_leftFrontMotor.getSpeed();
 		double rightMotorSpeed = m_rightFrontMotor.getSpeed();
 		double average = (leftMotorSpeed + rightMotorSpeed)/2.0;
-		if(average <= RobotMap.GEAR_AUTOMATIC_LOW_RANGE) { // TODO: Move to robotmap
+		if(average <= RobotMap.GEAR_AUTOMATIC_LOW_RANGE) { 
 			return 1;
 		}else if(average > RobotMap.GEAR_AUTOMATIC_LOW_RANGE && average <= RobotMap.GEAR_AUTOMATIC_HI_RANGE) {
 			return getGear();
