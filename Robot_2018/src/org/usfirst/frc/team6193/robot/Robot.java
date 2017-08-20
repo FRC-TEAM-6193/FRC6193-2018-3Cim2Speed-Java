@@ -1,7 +1,6 @@
 
 package org.usfirst.frc.team6193.robot;
 
-import org.omg.PortableServer.AdapterActivator;
 import org.usfirst.frc.team6193.robot.subsystems.DrivelineSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;

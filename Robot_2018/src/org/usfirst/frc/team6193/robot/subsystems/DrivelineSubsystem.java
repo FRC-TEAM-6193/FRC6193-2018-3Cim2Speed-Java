@@ -3,7 +3,6 @@ package org.usfirst.frc.team6193.robot.subsystems;
 import org.usfirst.frc.team6193.robot.OI;
 import org.usfirst.frc.team6193.robot.RobotMap;
 import org.usfirst.frc.team6193.robot.commands.DrivelineDefaultCommand;
-import org.usfirst.frc.team6193.robot.commands.DrivelineDriveCommand;
 import org.usfirst.frc.team6193.robot.lib.RobotDrive_3C2S;
 
 import com.ctre.CANTalon;

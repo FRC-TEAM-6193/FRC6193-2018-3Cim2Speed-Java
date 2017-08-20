@@ -1,6 +1,5 @@
 package org.usfirst.frc.team6193.robot.commands;
 
-import org.usfirst.frc.team6193.robot.OI;
 import org.usfirst.frc.team6193.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;

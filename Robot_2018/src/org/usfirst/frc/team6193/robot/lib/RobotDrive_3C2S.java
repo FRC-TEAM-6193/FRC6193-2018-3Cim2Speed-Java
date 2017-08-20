@@ -8,9 +8,7 @@ package org.usfirst.frc.team6193.robot.lib;
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-import edu.wpi.first.wpilibj.hal.FRCNetComm.tInstances;
-import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
-import edu.wpi.first.wpilibj.hal.HAL;
+
 
 import static java.util.Objects.requireNonNull;
 
@@ -43,7 +41,6 @@ public class RobotDrive_3C2S implements MotorSafety {
 	public enum MotorType {
 		kLeftFront(0), kLeftRear(1), kLeftTop(2), kRightFront(3), kRightRear(4), kRightTop(5);
 
-		@SuppressWarnings("MemberName")
 		public final int value;
 
 		private MotorType(int value) {
