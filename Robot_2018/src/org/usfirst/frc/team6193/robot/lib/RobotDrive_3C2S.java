@@ -40,9 +40,7 @@ public class RobotDrive_3C2S implements MotorSafety {
 	 */
 	public enum MotorType {
 		kLeftFront(0), kLeftRear(1), kLeftTop(2), kRightFront(3), kRightRear(4), kRightTop(5);
-
 		public final int value;
-
 		private MotorType(int value) {
 			this.value = value;
 		}
@@ -54,12 +52,12 @@ public class RobotDrive_3C2S implements MotorSafety {
 	protected static final int kMaxNumberOfMotors = 6;
 	protected double m_sensitivity;
 	protected double m_maxOutput;
-	protected CANTalon m_leftFrontMotor;
-	protected CANTalon m_leftRearMotor;
-	protected CANTalon m_leftTopMotor;
-	protected CANTalon m_rightFrontMotor;
-	protected CANTalon m_rightRearMotor;
-	protected CANTalon m_rightTopMotor;
+	protected CANTalon m_leftCIMMotor1;
+	protected CANTalon m_leftCIMMotor2;
+	protected CANTalon m_leftMiniCIMMotor1;
+	protected CANTalon m_rightCIMMotor1;
+	protected CANTalon m_rightCIMMotor2;
+	protected CANTalon m_rightMiniCIMMotor1;
 	protected static boolean kArcadeRatioCurve_Reported = false;
 	protected static boolean kArcadeStandard_Reported = false;
 	protected DoubleSolenoid m_leftGearSolenoid;
@@ -88,12 +86,12 @@ public class RobotDrive_3C2S implements MotorSafety {
 	 */
 	public RobotDrive_3C2S(CANTalon leftFrontMotor, CANTalon leftRearMotor, CANTalon leftTopMotor,
 			CANTalon rightFrontMotor, CANTalon rightRearMotor, CANTalon rightTopMotor) {
-		m_leftFrontMotor = requireNonNull(leftFrontMotor, "leftFrontMotor cannot be null");
-		m_leftRearMotor = requireNonNull(leftRearMotor, "leftRearMotor cannot be null");
-		m_leftTopMotor = requireNonNull(leftTopMotor, "leftTopMotor cannot be null"); // TODO: insure brake is off
-		m_rightFrontMotor = requireNonNull(rightFrontMotor, "rightFrontMotor cannot be null");
-		m_rightRearMotor = requireNonNull(rightRearMotor, "rightRearMotor cannot be null");
-		m_rightTopMotor = requireNonNull(rightTopMotor, "rightTopMotor cannot be null"); // TODO: insure brake is off
+		m_leftCIMMotor1 = requireNonNull(leftFrontMotor, "leftFrontMotor cannot be null");
+		m_leftCIMMotor2 = requireNonNull(leftRearMotor, "leftRearMotor cannot be null");
+		m_leftMiniCIMMotor1 = requireNonNull(leftTopMotor, "leftTopMotor cannot be null"); // TODO: insure brake is off
+		m_rightCIMMotor1 = requireNonNull(rightFrontMotor, "rightFrontMotor cannot be null");
+		m_rightCIMMotor2 = requireNonNull(rightRearMotor, "rightRearMotor cannot be null");
+		m_rightMiniCIMMotor1 = requireNonNull(rightTopMotor, "rightTopMotor cannot be null"); // TODO: insure brake is off
 		m_rightGearSolenoid = new DoubleSolenoid(1,2);
 		m_leftGearSolenoid = new DoubleSolenoid(3,4);
 		m_sensitivity = kDefaultSensitivity;
@@ -212,37 +210,37 @@ public class RobotDrive_3C2S implements MotorSafety {
 	 * @param rightOutput
 	 */
 	public void setLeftRightMotorOutputs(double leftOutput, double rightOutput) {
-		if (m_rightRearMotor == null || m_rightFrontMotor == null || m_rightTopMotor == null || m_leftFrontMotor == null
-				|| m_leftRearMotor == null || m_leftTopMotor == null) {
+		if (m_rightCIMMotor2 == null || m_rightCIMMotor1 == null || m_rightMiniCIMMotor1 == null || m_leftCIMMotor1 == null
+				|| m_leftCIMMotor2 == null || m_leftMiniCIMMotor1 == null) {
 			throw new NullPointerException("Null motor provided");
 		}
 		if(getIsGearAutomaticMode()) {
 			setGear(getNewAutomaticGear());
 		}
-		if (m_leftFrontMotor != null) {
-			m_leftFrontMotor.set(limit(leftOutput) * m_maxOutput);
+		if (m_leftCIMMotor1 != null) {
+			m_leftCIMMotor1.set(limit(leftOutput) * m_maxOutput);
 		}
-		if (m_leftRearMotor != null) {
-			m_leftRearMotor.set(limit(leftOutput) * m_maxOutput);
+		if (m_leftCIMMotor2 != null) {
+			m_leftCIMMotor2.set(limit(leftOutput) * m_maxOutput);
 		}
-		if (m_leftTopMotor != null) {
+		if (m_leftMiniCIMMotor1 != null) {
 			if(m_useMiniCIMs) {
-				m_leftTopMotor.set(limit(leftOutput) * m_maxOutput);
+				m_leftMiniCIMMotor1.set(limit(leftOutput) * m_maxOutput);
 			}else {
-				m_leftTopMotor.set(0);
+				m_leftMiniCIMMotor1.set(0);
 			}
 		}
-		if (m_rightFrontMotor != null) {
-			m_rightFrontMotor.set(-limit(rightOutput) * m_maxOutput);
+		if (m_rightCIMMotor1 != null) {
+			m_rightCIMMotor1.set(-limit(rightOutput) * m_maxOutput);
 		}
-		if (m_rightRearMotor != null) {
-			m_rightRearMotor.set(-limit(rightOutput) * m_maxOutput);
+		if (m_rightCIMMotor2 != null) {
+			m_rightCIMMotor2.set(-limit(rightOutput) * m_maxOutput);
 		}
-		if (m_rightTopMotor != null) {
+		if (m_rightMiniCIMMotor1 != null) {
 			if(m_useMiniCIMs) {
-				m_rightTopMotor.set(-limit(rightOutput) * m_maxOutput);
+				m_rightMiniCIMMotor1.set(-limit(rightOutput) * m_maxOutput);
 			}else {
-				m_rightTopMotor.set(0);
+				m_rightMiniCIMMotor1.set(0);
 			}
 		}
 
@@ -264,8 +262,8 @@ public class RobotDrive_3C2S implements MotorSafety {
 	 */
 	private int getNewAutomaticGear() {
 		// The speeds should be directionless. If EncVelocity works better, get Absolute value
-		double leftMotorSpeed = m_leftFrontMotor.getSpeed();
-		double rightMotorSpeed = m_rightFrontMotor.getSpeed();
+		double leftMotorSpeed = m_leftCIMMotor1.getSpeed();
+		double rightMotorSpeed = m_rightCIMMotor1.getSpeed();
 		double average = (leftMotorSpeed + rightMotorSpeed)/2.0;
 		if(average <= RobotMap.GEAR_AUTOMATIC_LOW_RANGE) { 
 			return 1;
@@ -334,16 +332,16 @@ public class RobotDrive_3C2S implements MotorSafety {
 	public void setInvertedMotor(MotorType motor, boolean isInverted) {
 		switch (motor) {
 		case kLeftFront:
-			m_leftFrontMotor.setInverted(isInverted);
+			m_leftCIMMotor1.setInverted(isInverted);
 			break;
 		case kLeftRear:
-			m_rightFrontMotor.setInverted(isInverted);
+			m_rightCIMMotor1.setInverted(isInverted);
 			break;
 		case kLeftTop:
-			m_leftRearMotor.setInverted(isInverted);
+			m_leftCIMMotor2.setInverted(isInverted);
 			break;
 		case kRightFront:
-			m_rightRearMotor.setInverted(isInverted);
+			m_rightCIMMotor2.setInverted(isInverted);
 			break;
 		default:
 			throw new IllegalArgumentException("Illegal motor type: " + motor);
@@ -415,23 +413,23 @@ public class RobotDrive_3C2S implements MotorSafety {
 
 	@Override
 	public void stopMotor() {
-		 if (m_leftFrontMotor != null) {
-			 m_leftFrontMotor.set(0);
+		 if (m_leftCIMMotor1 != null) {
+			 m_leftCIMMotor1.set(0);
 		 }
-		 if (m_leftRearMotor != null) {
-			 m_leftRearMotor.set(0);
+		 if (m_leftCIMMotor2 != null) {
+			 m_leftCIMMotor2.set(0);
 		 }
-		 if (m_leftTopMotor != null) {
-			 m_leftTopMotor.set(0);
+		 if (m_leftMiniCIMMotor1 != null) {
+			 m_leftMiniCIMMotor1.set(0);
 		 }
-		 if (m_rightFrontMotor != null) {
-			 m_rightFrontMotor.set(0);
+		 if (m_rightCIMMotor1 != null) {
+			 m_rightCIMMotor1.set(0);
 		 }
-		 if (m_rightRearMotor != null) {
-			 m_rightRearMotor.set(0);
+		 if (m_rightCIMMotor2 != null) {
+			 m_rightCIMMotor2.set(0);
 		 }
-		 if (m_rightTopMotor != null) {
-			 m_rightTopMotor.set(0);
+		 if (m_rightMiniCIMMotor1 != null) {
+			 m_rightMiniCIMMotor1.set(0);
 		 }
 		if (m_safetyHelper != null) {
 			m_safetyHelper.feed();
@@ -446,16 +444,16 @@ public class RobotDrive_3C2S implements MotorSafety {
 
 	protected int getNumMotors() {
 		int motors = 0;
-		if (m_leftFrontMotor != null) {
+		if (m_leftCIMMotor1 != null) {
 			motors++;
 		}
-		if (m_rightFrontMotor != null) {
+		if (m_rightCIMMotor1 != null) {
 			motors++;
 		}
-		if (m_leftRearMotor != null) {
+		if (m_leftCIMMotor2 != null) {
 			motors++;
 		}
-		if (m_rightRearMotor != null) {
+		if (m_rightCIMMotor2 != null) {
 			motors++;
 		}
 		return motors;

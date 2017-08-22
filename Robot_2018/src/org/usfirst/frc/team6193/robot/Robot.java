@@ -3,7 +3,7 @@ package org.usfirst.frc.team6193.robot;
 
 import org.usfirst.frc.team6193.robot.subsystems.DrivelineSubsystem;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
+//import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 
@@ -31,7 +31,9 @@ public class Robot extends IterativeRobot {
 		driveline = new DrivelineSubsystem();
 		
 	}
-
+	public void robotPeriodic() {
+		
+	}
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
 	 * You can use it to reset any subsystem information you want to clear when
