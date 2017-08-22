@@ -118,7 +118,7 @@ public abstract class IterativeRobotBase extends RobotBase {
    * <p>Users should override this method for initialization code which will be called each time the
    * robot enters test mode.
    */
-  @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
+
   public void testInit() {
     System.out.println("Default testInit() method... Overload me!");
   }
@@ -178,7 +178,7 @@ public abstract class IterativeRobotBase extends RobotBase {
   /**
    * Periodic code for test mode should go here.
    */
-  @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
+
   public void testPeriodic() {
     if (m_tmpFirstRun) {
       System.out.println("Default testPeriodic() method... Overload me!");

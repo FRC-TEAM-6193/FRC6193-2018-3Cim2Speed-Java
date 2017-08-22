@@ -2,7 +2,6 @@ package org.usfirst.frc.team6193.robot.subsystems;
 
 import org.usfirst.frc.team6193.robot.Calibrations;
 import org.usfirst.frc.team6193.robot.OI;
-import org.usfirst.frc.team6193.robot.Robot;
 import org.usfirst.frc.team6193.robot.RobotMap;
 import org.usfirst.frc.team6193.robot.commands.DrivelineDefaultCommand;
 import org.usfirst.frc.team6193.robot.lib.PIDMode;
@@ -33,7 +32,7 @@ public class DrivelineSubsystem extends PIDSubsystem {
 	private CANTalon m_leftMiniCIMMotor1;
 	private RobotDrive_3C2S m_robotDrive;
 	private ADXRS450_Gyro m_gyro;
-	private double m_position_inch;
+	//private double m_position_inch;
 	private PIDMode m_PIDMode = PIDMode.Position;
 	
 	
@@ -77,7 +76,7 @@ public class DrivelineSubsystem extends PIDSubsystem {
 		double rightPosition = m_rightCIMMotor1.getEncPosition();
 		return ((leftPosition + rightPosition) /2.0) / Calibrations.k_DrivelineEncoderRatio_CntPerInch;
 	}
-	private void resetDrivelinePosition() {
+	public void resetDrivelinePosition() {
 		m_leftCIMMotor1.setEncPosition(0);
 		m_rightCIMMotor1.setEncPosition(0);
 	}
