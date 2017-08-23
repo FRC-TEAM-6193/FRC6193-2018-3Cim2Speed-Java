@@ -38,12 +38,12 @@ public class DrivelineSubsystem extends PIDSubsystem {
 	
 	public DrivelineSubsystem() {
 		super(1,0,0);
-		m_rightCIMMotor1 = new CANTalon(RobotMap.K_RIGHT_FRONT_MOTOR_CANID);
-		m_rightCIMMotor2 = new CANTalon(RobotMap.K_RIGHT_REAR_MOTOR_CANID);
-		m_rightMiniCIMMotor1 = new CANTalon(RobotMap.K_RIGHT_TOP_MOTOR_CANID);
-		m_leftCIMMotor1 = new CANTalon(RobotMap.K_LEFT_FRONT_MOTOR_CANID);
-		m_leftCIMMotor2 = new CANTalon(RobotMap.K_LEFT_REAR_MOTOR_CANID);
-		m_leftMiniCIMMotor1 = new CANTalon(RobotMap.K_LEFT_TOP_MOTOR_CANID);
+		m_rightCIMMotor1 = new CANTalon(RobotMap.K_RIGHT_CIM_MOTORCTRL_1_CANID);
+		m_rightCIMMotor2 = new CANTalon(RobotMap.K_RIGHT_CIM_MOTORCTRL_2_CANID);
+		m_rightMiniCIMMotor1 = new CANTalon(RobotMap.K_RIGHT_MINICIM_MOTORCTRL_CANID);
+		m_leftCIMMotor1 = new CANTalon(RobotMap.K_LEFT_CIM_MOTORCTRL_1_CANID);
+		m_leftCIMMotor2 = new CANTalon(RobotMap.K_LEFT_CIM_MOTORCTRL_2_CANID);
+		m_leftMiniCIMMotor1 = new CANTalon(RobotMap.K_LEFT_MINICIM_MOTORCTRL_CANID);
 		m_gyro = new ADXRS450_Gyro();
 		m_robotDrive = new RobotDrive_3C2S(m_leftCIMMotor1, m_leftCIMMotor2, m_leftMiniCIMMotor1, m_rightCIMMotor1, m_rightCIMMotor2, m_rightMiniCIMMotor1);
 		

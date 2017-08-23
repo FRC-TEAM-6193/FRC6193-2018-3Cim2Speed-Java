@@ -10,11 +10,11 @@ public class RobotMap {
 
 	public static final double GEAR_AUTOMATIC_LOW_RANGE = 500.0;
 	public static final double GEAR_AUTOMATIC_HI_RANGE = 2000.0;
-	public static final int K_RIGHT_FRONT_MOTOR_CANID = 1;
-	public static final int K_RIGHT_REAR_MOTOR_CANID = 2;
-	public static final int K_RIGHT_TOP_MOTOR_CANID = 3;
-	public static final int K_LEFT_FRONT_MOTOR_CANID = 4;
-	public static final int K_LEFT_REAR_MOTOR_CANID = 5;
-	public static final int K_LEFT_TOP_MOTOR_CANID = 6;
+	public static final int K_RIGHT_CIM_MOTORCTRL_1_CANID = 1;
+	public static final int K_RIGHT_CIM_MOTORCTRL_2_CANID = 2;
+	public static final int K_RIGHT_MINICIM_MOTORCTRL_CANID = 3;
+	public static final int K_LEFT_CIM_MOTORCTRL_1_CANID = 4;
+	public static final int K_LEFT_CIM_MOTORCTRL_2_CANID = 5;
+	public static final int K_LEFT_MINICIM_MOTORCTRL_CANID = 6;
 
 }
