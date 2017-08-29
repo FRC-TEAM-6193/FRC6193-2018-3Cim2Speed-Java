@@ -8,13 +8,17 @@ package org.usfirst.frc.team6193.robot;
  */
 public class RobotMap {
 
-	public static final double GEAR_AUTOMATIC_LOW_RANGE = 500.0;
-	public static final double GEAR_AUTOMATIC_HI_RANGE = 2000.0;
+	public static final double GEAR_AUTOMATIC_LOW_VALUE = 50.0;
+	public static final double GEAR_AUTOMATIC_UPSHIFT_VALUE = 4000.0;
+
 	public static final int K_RIGHT_CIM_MOTORCTRL_1_CANID = 1;
 	public static final int K_RIGHT_CIM_MOTORCTRL_2_CANID = 2;
 	public static final int K_RIGHT_MINICIM_MOTORCTRL_CANID = 3;
 	public static final int K_LEFT_CIM_MOTORCTRL_1_CANID = 4;
 	public static final int K_LEFT_CIM_MOTORCTRL_2_CANID = 5;
 	public static final int K_LEFT_MINICIM_MOTORCTRL_CANID = 6;
+	public static final int K_ROPEClIMBER_MOTCTRL_CANID = 7;
+	public static final int K_GEARAHNDLER_SPIN_MOTCTRL_CANID = 0;
+	public static final int K_GEARAHNDLER_ROTATE_MOTCTRL_CANID = 0;
 
 }

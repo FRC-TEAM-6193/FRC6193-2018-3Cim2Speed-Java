@@ -8,5 +8,6 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class OI {
 	public static Joystick xbox1 = new Joystick(1);
+	public static Joystick flight1 = new Joystick(2);
 	
 }

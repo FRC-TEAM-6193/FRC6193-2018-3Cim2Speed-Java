@@ -17,7 +17,7 @@ import org.usfirst.frc.team6193.robot.RobotMap;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.MotorSafetyHelper;
-
+import edu.wpi.first.wpilibj.Timer;
 
 import com.ctre.CANTalon;
 
@@ -65,6 +65,7 @@ public class RobotDrive_3C2S implements MotorSafety {
 	protected boolean m_useMiniCIMs = true;
 	private boolean m_gearAutomaticMode = true;
 	private int m_gear = 1;
+	private double m_lastShiftTime = 0;
 
 	/**
 	 * Constructor for RobotDrive with 4 motors specified as SpeedController
@@ -249,11 +250,12 @@ public class RobotDrive_3C2S implements MotorSafety {
 		}
 	}
 	/**
-	 * The implemented deadband will hopefully keep the solenoid from chatering.
-	 * If high speed is happening in low gear it will shift up and the speed will drop.
-	 * If Max speed is 5800 rpm then the Low might be 4500 or peak output rpm.
-	 * The Hi might be set at 5000 rpm.
-	 * Anywhere between 4500 and 5000 the gear will not switch.
+	 * New Algorithm
+	 * 1. Shift up at ~4000 rpm
+	 * 2. Shift down when <50 or ~0 rpm
+	 * 3. Don't shift if last shift was less than 1/2 second ago
+	 * This will prevent changes while slowing down and 
+	 * slowing down from high gear takes no current. Keeps it consistemt.
 	 * 
 	 * This needs TESTING and improvement
 	 * Unsure on getSpeed vs getEncVelocity
@@ -261,19 +263,25 @@ public class RobotDrive_3C2S implements MotorSafety {
 	 * @return
 	 */
 	private int getNewAutomaticGear() {
-		// The speeds should be directionless. If EncVelocity works better, get Absolute value
+		// The speeds should be directionless. If EncVelocity works better, get Absolute
+		// value
 		double leftMotorSpeed = m_leftCIMMotor1.getSpeed();
 		double rightMotorSpeed = m_rightCIMMotor1.getSpeed();
-		double average = (leftMotorSpeed + rightMotorSpeed)/2.0;
-		if(average <= RobotMap.GEAR_AUTOMATIC_LOW_RANGE) { 
-			return 1;
-		}else if(average > RobotMap.GEAR_AUTOMATIC_LOW_RANGE && average <= RobotMap.GEAR_AUTOMATIC_HI_RANGE) {
-			return getGear();
-		}else if(average > RobotMap.GEAR_AUTOMATIC_HI_RANGE) {
-			return 2;
-		}else {
+		double average = (leftMotorSpeed + rightMotorSpeed) / 2.0;
+		
+		if((Timer.getFPGATimestamp() - m_lastShiftTime) < 0.5) {
 			return getGear();
 		}
+		
+		
+		if (average <= RobotMap.GEAR_AUTOMATIC_LOW_VALUE) {
+			return 1;
+		} else if (average > RobotMap.GEAR_AUTOMATIC_UPSHIFT_VALUE) {
+			return 2;
+		}else {
+			 return getGear();
+		}
+
 	}
 	/**
 	 * Limit motor values to the -1.0 to +1.0 range.
@@ -476,16 +484,18 @@ public class RobotDrive_3C2S implements MotorSafety {
 			m_leftGearSolenoid.set(DoubleSolenoid.Value.kReverse);
 			m_rightGearSolenoid.set(DoubleSolenoid.Value.kReverse);
 			m_gear = 2;
+			m_lastShiftTime = Timer.getFPGATimestamp();
 		}if(m_gear == 2 && gear == 1) {
 			m_leftGearSolenoid.set(DoubleSolenoid.Value.kForward);
 			m_rightGearSolenoid.set(DoubleSolenoid.Value.kForward);
 			m_gear = 1;
+			m_lastShiftTime = Timer.getFPGATimestamp();
 		}else if(m_gear == 1 && gear == 1) {
 			// Do nothing
 		}else if(m_gear == 2 && gear == 2) {
 			// Do nothing
 		}
-		this.m_gear = gear;
+
 	}
 	public boolean getUseMiniCIMs() {
 		return m_useMiniCIMs;

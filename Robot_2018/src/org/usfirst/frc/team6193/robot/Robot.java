@@ -2,7 +2,8 @@
 package org.usfirst.frc.team6193.robot;
 
 import org.usfirst.frc.team6193.robot.subsystems.DrivelineSubsystem;
-
+import org.usfirst.frc.team6193.robot.subsystems.GearHandlerSubsystem;
+import org.usfirst.frc.team6193.robot.subsystems.RopeClimberSubsystem;
 //import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -20,6 +21,8 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 	public static DrivelineSubsystem driveline;
+	public static RopeClimberSubsystem ropeClimber;
+	public static GearHandlerSubsystem gearHandler;
 
 	/**
 	 * This function is run when the robot is first started up and should be
