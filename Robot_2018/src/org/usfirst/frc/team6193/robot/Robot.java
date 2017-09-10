@@ -32,7 +32,8 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		driveline = new DrivelineSubsystem();
-		
+	//	ropeClimber = new RopeClimberSubsystem();
+	//	gearHandler = new GearHandlerSubsystem();
 	}
 	public void robotPeriodic() {
 		

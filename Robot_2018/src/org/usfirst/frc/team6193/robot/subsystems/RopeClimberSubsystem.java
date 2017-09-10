@@ -1,7 +1,6 @@
 package org.usfirst.frc.team6193.robot.subsystems;
 
 import org.usfirst.frc.team6193.robot.OI;
-import org.usfirst.frc.team6193.robot.Robot;
 import org.usfirst.frc.team6193.robot.RobotMap;
 import org.usfirst.frc.team6193.robot.commands.RopeClimberDefaultCommand;
 

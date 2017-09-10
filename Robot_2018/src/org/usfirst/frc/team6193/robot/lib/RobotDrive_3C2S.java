@@ -39,9 +39,16 @@ public class RobotDrive_3C2S implements MotorSafety {
 	 * The location of a motor on the robot for the purpose of driving.
 	 */
 	public enum MotorType {
-		kLeftFront(0), kLeftRear(1), kLeftTop(2), kRightFront(3), kRightRear(4), kRightTop(5);
+		kLeftCIMMot1(0), kLeftCIMMot2(1), kLeftMiniCIM(2), kRightCIMMot1(3), kRightCIMMot2(4), kRightMiniCIM(5);
 		public final int value;
 		private MotorType(int value) {
+			this.value = value;
+		}
+	}
+	public enum MotorSide {
+		KLEFT(0), KRIGHT(1);
+		public final int value;
+		private MotorSide (int value) {
 			this.value = value;
 		}
 	}
@@ -95,6 +102,8 @@ public class RobotDrive_3C2S implements MotorSafety {
 		m_rightMiniCIMMotor1 = requireNonNull(rightTopMotor, "rightTopMotor cannot be null"); // TODO: insure brake is off
 		m_rightGearSolenoid = new DoubleSolenoid(1,2);
 		m_leftGearSolenoid = new DoubleSolenoid(3,4);
+		m_leftMiniCIMMotor1.enableBrakeMode(false);
+		m_rightMiniCIMMotor1.enableBrakeMode(false);
 		m_sensitivity = kDefaultSensitivity;
 		m_maxOutput = kDefaultMaxOutput;
 		setupMotorSafety();
@@ -273,7 +282,6 @@ public class RobotDrive_3C2S implements MotorSafety {
 			return getGear();
 		}
 		
-		
 		if (average <= RobotMap.GEAR_AUTOMATIC_LOW_VALUE) {
 			return 1;
 		} else if (average > RobotMap.GEAR_AUTOMATIC_UPSHIFT_VALUE) {
@@ -337,20 +345,17 @@ public class RobotDrive_3C2S implements MotorSafety {
 	 * @param isInverted
 	 *            True if the motor should be inverted when operated.
 	 */
-	public void setInvertedMotor(MotorType motor, boolean isInverted) {
+	public void setInvertedMotor(MotorSide motor, boolean isInverted) {
 		switch (motor) {
-		case kLeftFront:
+		case KLEFT:
 			m_leftCIMMotor1.setInverted(isInverted);
-			break;
-		case kLeftRear:
-			m_rightCIMMotor1.setInverted(isInverted);
-			break;
-		case kLeftTop:
 			m_leftCIMMotor2.setInverted(isInverted);
+			m_leftMiniCIMMotor1.setInverted(isInverted);
 			break;
-		case kRightFront:
+		case KRIGHT:
+			m_rightCIMMotor1.setInverted(isInverted);
 			m_rightCIMMotor2.setInverted(isInverted);
-			break;
+			m_rightMiniCIMMotor1.setInverted(isInverted);
 		default:
 			throw new IllegalArgumentException("Illegal motor type: " + motor);
 		}
@@ -455,13 +460,19 @@ public class RobotDrive_3C2S implements MotorSafety {
 		if (m_leftCIMMotor1 != null) {
 			motors++;
 		}
-		if (m_rightCIMMotor1 != null) {
-			motors++;
-		}
 		if (m_leftCIMMotor2 != null) {
 			motors++;
 		}
+		if (m_leftMiniCIMMotor1 != null) {
+			motors++;
+		}
+		if (m_rightCIMMotor1 != null) {
+			motors++;
+		}
 		if (m_rightCIMMotor2 != null) {
+			motors++;
+		}
+		if (m_rightMiniCIMMotor1 != null) {
 			motors++;
 		}
 		return motors;
