@@ -6,5 +6,6 @@ public class Calibrations {
 	public static double[] k_DrivelineSpeedLoGearTable_InchPerSec = {0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0}; // TODO: Calibrate Inch/Sec Tables
 	public static double[] k_DrivelineSpeedHiGearTable_InchPerSec = {0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0};
 	public static double k_DrivelineEncoderRatio_CntPerInch = 1;
+	public static double k_drivelineAutoDriveRotateComp = 0.05;
 	
 }

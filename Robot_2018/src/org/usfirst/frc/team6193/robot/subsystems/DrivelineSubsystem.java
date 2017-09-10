@@ -48,10 +48,16 @@ public class DrivelineSubsystem extends PIDSubsystem {
 		m_robotDrive = new RobotDrive_3C2S(m_leftCIMMotor1, m_leftCIMMotor2, m_leftMiniCIMMotor1, m_rightCIMMotor1, m_rightCIMMotor2, m_rightMiniCIMMotor1);
 		
 	}
-	public void initDriveline() {
-		m_robotDrive.setGear(1);
-		m_robotDrive.setUseMiniCIMs(true);
-		m_robotDrive.setIsGearAutomaticMode(true);
+	/**
+	 * 
+	 * @param gear The gear to use, 1 = low and 2 = high
+	 * @param useMiniCims Use the miniCim motor on the driveline
+	 * @param useAutoMode True = Automatic and False = Manual
+	 */
+	public void initDriveline(int gear, boolean useMiniCims, boolean useAutoMode) {
+		m_robotDrive.setGear(gear);
+		m_robotDrive.setUseMiniCIMs(useMiniCims);
+		m_robotDrive.setIsGearAutomaticMode(useAutoMode);
 	}
 	/**
 	 * Default drive mode with Joysticks 
@@ -92,6 +98,9 @@ public class DrivelineSubsystem extends PIDSubsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         setDefaultCommand(new DrivelineDefaultCommand());
+    }
+    public double getDrivelineAngle() {
+    	return m_gyro.getAngle();
     }
 	@Override
 	protected double returnPIDInput() {
