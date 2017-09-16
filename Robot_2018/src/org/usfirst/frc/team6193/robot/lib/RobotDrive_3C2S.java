@@ -228,6 +228,7 @@ public class RobotDrive_3C2S implements MotorSafety {
 		if(getIsGearAutomaticMode()) {
 			setGear(getNewAutomaticGear());
 		}
+	
 		if (m_leftCIMMotor1 != null) {
 			m_leftCIMMotor1.set(limit(leftOutput) * m_maxOutput);
 		}

@@ -10,6 +10,7 @@ package org.usfirst.frc.team6193.robot;
  */
 public class RobotMap {
 
+	
 	public static final double GEAR_AUTOMATIC_LOW_VALUE = 50.0;
 	public static final double GEAR_AUTOMATIC_UPSHIFT_VALUE = 4000.0;
 
