@@ -73,6 +73,7 @@ public class RobotDrive_3C2S implements MotorSafety {
 	private boolean m_gearAutomaticMode = true;
 	private int m_gear = 1;
 	private double m_lastShiftTime = 0;
+	 
 
 	/**
 	 * Constructor for RobotDrive with 4 motors specified as SpeedController
@@ -100,8 +101,8 @@ public class RobotDrive_3C2S implements MotorSafety {
 		m_rightCIMMotor1 = requireNonNull(rightFrontMotor, "rightFrontMotor cannot be null");
 		m_rightCIMMotor2 = requireNonNull(rightRearMotor, "rightRearMotor cannot be null");
 		m_rightMiniCIMMotor1 = requireNonNull(rightTopMotor, "rightTopMotor cannot be null"); // TODO: insure brake is off
-		m_rightGearSolenoid = new DoubleSolenoid(1,2);
-		m_leftGearSolenoid = new DoubleSolenoid(3,4);
+		m_rightGearSolenoid = new DoubleSolenoid(15,0,1);
+		m_leftGearSolenoid = new DoubleSolenoid(15,2,3);
 		m_leftMiniCIMMotor1.enableBrakeMode(false);
 		m_rightMiniCIMMotor1.enableBrakeMode(false);
 		m_sensitivity = kDefaultSensitivity;
