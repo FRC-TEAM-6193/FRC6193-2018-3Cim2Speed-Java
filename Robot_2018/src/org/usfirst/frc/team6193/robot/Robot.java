@@ -44,9 +44,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("DrivelineAngle", driveline.getDrivelineAngle());
 		SmartDashboard.putNumber("DrivelineSpeed", driveline.getRobotDrive().getDrivelineSpeed());
 		
-		//Set gear
-		
-		//Set Mode
+
 		
 	}
 	/**
