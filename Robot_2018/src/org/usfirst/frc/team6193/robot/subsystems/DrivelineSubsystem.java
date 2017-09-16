@@ -65,13 +65,13 @@ public class DrivelineSubsystem extends PIDSubsystem {
 	public void Drive() {
 		
 		// Thumbstick
-		double x = OI.xbox1.getRawAxis(0);
+		double rotate = OI.xbox1.getRawAxis(0);
 		// Left Trigger Forward, Right Trigger Reverse, Assumed 0 to 1.
 		double leftTrigger = OI.xbox1.getRawAxis(2);
 		double rightTrigger = OI.xbox1.getRawAxis(3);
-		double y = leftTrigger - rightTrigger;
+		double move = leftTrigger - rightTrigger;
 
-    	Drive(x,y);
+    	Drive(move,rotate);
 	}
 	/**
 	 * 
@@ -85,6 +85,9 @@ public class DrivelineSubsystem extends PIDSubsystem {
 	public void resetDrivelinePosition() {
 		m_leftCIMMotor1.setEncPosition(0);
 		m_rightCIMMotor1.setEncPosition(0);
+	}
+	public RobotDrive_3C2S getRobotDrive() {
+		return m_robotDrive;
 	}
 	/**
 	 * Drive command for move and rotate. Used in Autonomous and joystick drive

@@ -73,7 +73,8 @@ public class RobotDrive_3C2S implements MotorSafety {
 	private boolean m_gearAutomaticMode = true;
 	private int m_gear = 1;
 	private double m_lastShiftTime = 0;
-	 
+	private double m_drivelineSpeed = 0;
+	
 
 	/**
 	 * Constructor for RobotDrive with 4 motors specified as SpeedController
@@ -530,4 +531,15 @@ public class RobotDrive_3C2S implements MotorSafety {
 	public void setIsGearAutomaticMode(boolean gearAutomaticMode) {
 		this.m_gearAutomaticMode = gearAutomaticMode;
 	}
+
+	/**
+	 * @return the m_drivelineSpeed
+	 */
+	public double getDrivelineSpeed() {
+		double leftMotorSpeed = m_leftCIMMotor1.getSpeed();
+		double rightMotorSpeed = m_rightCIMMotor1.getSpeed();
+		double m_drivelineSpeed = (leftMotorSpeed + rightMotorSpeed) / 2.0;
+		return m_drivelineSpeed;
+	}
+
 }

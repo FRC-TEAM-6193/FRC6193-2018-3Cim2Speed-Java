@@ -4,8 +4,11 @@ package org.usfirst.frc.team6193.robot;
 import org.usfirst.frc.team6193.robot.subsystems.DrivelineSubsystem;
 import org.usfirst.frc.team6193.robot.subsystems.GearHandlerSubsystem;
 import org.usfirst.frc.team6193.robot.subsystems.RopeClimberSubsystem;
+
+import edu.wpi.first.wpilibj.SampleRobot;
 //import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -36,6 +39,14 @@ public class Robot extends IterativeRobot {
 	//	gearHandler = new GearHandlerSubsystem();
 	}
 	public void robotPeriodic() {
+		SmartDashboard.putBoolean("DrivelineIsAutomatic", driveline.getRobotDrive().getIsGearAutomaticMode());
+		SmartDashboard.putNumber("DrivelineGear", driveline.getRobotDrive().getGear());
+		SmartDashboard.putNumber("DrivelineAngle", driveline.getDrivelineAngle());
+		SmartDashboard.putNumber("DrivelineSpeed", driveline.getRobotDrive().getDrivelineSpeed());
+		
+		//Set gear
+		
+		//Set Mode
 		
 	}
 	/**
