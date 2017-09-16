@@ -1,5 +1,6 @@
 package org.usfirst.frc.team6193.robot;
 
+import org.usfirst.frc.team6193.robot.commands.DrivelineUseMiniCIMsCommand;
 import org.usfirst.frc.team6193.robot.commands.GearAutoModeCommand;
 import org.usfirst.frc.team6193.robot.commands.GearManualModeCommand;
 import org.usfirst.frc.team6193.robot.commands.GearSetHighGearCommand;
@@ -21,6 +22,7 @@ public class OI {
 	Button GearManualModeBtn = new JoystickButton(xbox1, 2);
 	Button GearSetHighBtn = new JoystickButton(xbox1, 1);
 	Button GearSetLowBtn = new JoystickButton(xbox1, 2);
+	Button DrivelineUseMiniCIMSbtn = new JoystickButton(xbox1, 5);
 	public OI()
 	{
 		GearAutoModeBtn.whenPressed(new GearAutoModeCommand());
@@ -28,6 +30,9 @@ public class OI {
 		
 		GearSetHighBtn.whenPressed(new GearSetHighGearCommand());
 		GearSetLowBtn.whenPressed(new GearSetLowGearCommand());
+		
+		DrivelineUseMiniCIMSbtn.whenPressed(new DrivelineUseMiniCIMsCommand());
+		
 	}
 	
 }
