@@ -35,6 +35,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		driveline = new DrivelineSubsystem();
+		driveline.initDriveline(1, false, false); // Low gear, do not use minicims and manual gear shifting
 	//	ropeClimber = new RopeClimberSubsystem();
 	//	gearHandler = new GearHandlerSubsystem();
 	}
