@@ -15,19 +15,19 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-	public static Joystick xbox1 = new Joystick(1);
-	public static Joystick flight1 = new Joystick(2);
+	public static Joystick xbox1 = new Joystick(0);
+	public static Joystick flight1 = new Joystick(1);
 	
 	Button GearAutoModeBtn = new JoystickButton(xbox1, 2);
-	Button GearManualModeBtn = new JoystickButton(xbox1, 3);
+	//Button GearManualModeBtn = new JoystickButton(xbox1, 3);
 	Button GearSetHighBtn = new JoystickButton(xbox1, 4);
 	Button GearSetLowBtn = new JoystickButton(xbox1, 1);
-	Button DrivelineUseMiniCIMSbtn = new JoystickButton(xbox1, 5);
+	Button DrivelineUseMiniCIMSbtn = new JoystickButton(xbox1, 3);
 //	Button DrivelineDoNotUseMiniCIMSbtn = new JoystickButton(xbox1, 6);
 	public OI()
 	{
 		GearAutoModeBtn.whenPressed(new GearAutoModeCommand());
-		GearManualModeBtn.whenPressed(new GearManualModeCommand());
+		//GearManualModeBtn.whenPressed(new GearManualModeCommand());
 		
 		GearSetHighBtn.whenPressed(new GearSetHighGearCommand());
 		GearSetLowBtn.whenPressed(new GearSetLowGearCommand());
