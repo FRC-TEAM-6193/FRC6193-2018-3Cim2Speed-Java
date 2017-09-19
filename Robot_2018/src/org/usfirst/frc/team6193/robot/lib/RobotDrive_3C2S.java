@@ -359,6 +359,7 @@ public class RobotDrive_3C2S implements MotorSafety {
 			m_rightCIMMotor1.setInverted(isInverted);
 			m_rightCIMMotor2.setInverted(isInverted);
 			m_rightMiniCIMMotor1.setInverted(isInverted);
+			break;
 		default:
 			throw new IllegalArgumentException("Illegal motor type: " + motor);
 		}
@@ -538,7 +539,7 @@ public class RobotDrive_3C2S implements MotorSafety {
 	public double getDrivelineSpeed() {
 		double leftMotorSpeed = m_leftCIMMotor1.getSpeed();
 		double rightMotorSpeed = m_rightCIMMotor1.getSpeed();
-		double m_drivelineSpeed = (leftMotorSpeed + rightMotorSpeed) / 2.0;
+		m_drivelineSpeed = (leftMotorSpeed + rightMotorSpeed) / 2.0;
 		return m_drivelineSpeed;
 	}
 

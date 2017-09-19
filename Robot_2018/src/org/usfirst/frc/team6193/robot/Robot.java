@@ -4,9 +4,6 @@ package org.usfirst.frc.team6193.robot;
 import org.usfirst.frc.team6193.robot.subsystems.DrivelineSubsystem;
 import org.usfirst.frc.team6193.robot.subsystems.GearHandlerSubsystem;
 import org.usfirst.frc.team6193.robot.subsystems.RopeClimberSubsystem;
-
-import edu.wpi.first.wpilibj.SampleRobot;
-//import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -33,9 +30,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		oi = new OI();
+		
 		driveline = new DrivelineSubsystem();
 		driveline.initDriveline(1, false, false); // Low gear, do not use minicims and manual gear shifting
+		oi = new OI();
 	//	ropeClimber = new RopeClimberSubsystem();
 	//	gearHandler = new GearHandlerSubsystem();
 	}
@@ -44,7 +42,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("DrivelineGear", driveline.getRobotDrive().getGear());
 		SmartDashboard.putNumber("DrivelineAngle", driveline.getDrivelineAngle());
 		SmartDashboard.putNumber("DrivelineSpeed", driveline.getRobotDrive().getDrivelineSpeed());
-		
+		SmartDashboard.putBoolean("DrivelineUseMiniCIM", driveline.getRobotDrive().getUseMiniCIMs());
 
 		
 	}

@@ -11,7 +11,7 @@ public class DrivelineUseMiniCIMsCommand extends Command {
 
     public DrivelineUseMiniCIMsCommand() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+    	requires(Robot.driveline);
     }
 
     // Called just before this Command runs the first time

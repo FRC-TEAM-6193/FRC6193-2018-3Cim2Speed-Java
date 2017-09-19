@@ -18,11 +18,12 @@ public class OI {
 	public static Joystick xbox1 = new Joystick(1);
 	public static Joystick flight1 = new Joystick(2);
 	
-	Button GearAutoModeBtn = new JoystickButton(xbox1, 1);
-	Button GearManualModeBtn = new JoystickButton(xbox1, 2);
-	Button GearSetHighBtn = new JoystickButton(xbox1, 1);
-	Button GearSetLowBtn = new JoystickButton(xbox1, 2);
+	Button GearAutoModeBtn = new JoystickButton(xbox1, 2);
+	Button GearManualModeBtn = new JoystickButton(xbox1, 3);
+	Button GearSetHighBtn = new JoystickButton(xbox1, 4);
+	Button GearSetLowBtn = new JoystickButton(xbox1, 1);
 	Button DrivelineUseMiniCIMSbtn = new JoystickButton(xbox1, 5);
+//	Button DrivelineDoNotUseMiniCIMSbtn = new JoystickButton(xbox1, 6);
 	public OI()
 	{
 		GearAutoModeBtn.whenPressed(new GearAutoModeCommand());

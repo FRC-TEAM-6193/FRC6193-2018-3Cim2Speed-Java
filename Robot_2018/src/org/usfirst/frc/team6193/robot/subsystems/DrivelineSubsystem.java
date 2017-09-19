@@ -6,6 +6,7 @@ import org.usfirst.frc.team6193.robot.RobotMap;
 import org.usfirst.frc.team6193.robot.commands.DrivelineDefaultCommand;
 import org.usfirst.frc.team6193.robot.lib.PIDMode;
 import org.usfirst.frc.team6193.robot.lib.RobotDrive_3C2S;
+import org.usfirst.frc.team6193.robot.lib.RobotDrive_3C2S.MotorSide;
 
 import com.ctre.CANTalon;
 
@@ -58,6 +59,7 @@ public class DrivelineSubsystem extends PIDSubsystem {
 		m_robotDrive.setGear(gear);
 		m_robotDrive.setUseMiniCIMs(useMiniCims);
 		m_robotDrive.setIsGearAutomaticMode(useAutoMode);
+		m_robotDrive.setInvertedMotor(MotorSide.KLEFT, true);
 	}
 	/**
 	 * Default drive mode with Joysticks 
