@@ -485,10 +485,16 @@ public class RobotDrive_3C2S implements MotorSafety {
 	 * Initialize the gears to 1st gear
 	 * Drive the pnuematic solenoid in one direction
 	 */
-	public void initGear() {
-		m_leftGearSolenoid.set(DoubleSolenoid.Value.kForward);
-		m_rightGearSolenoid.set(DoubleSolenoid.Value.kForward);
-		m_gear = 1;
+	public void initGear(int gear) {
+		if(gear == 1) {
+			m_leftGearSolenoid.set(DoubleSolenoid.Value.kForward);
+			m_rightGearSolenoid.set(DoubleSolenoid.Value.kForward);
+			m_gear = 1;
+		}else {
+			m_leftGearSolenoid.set(DoubleSolenoid.Value.kReverse);
+			m_rightGearSolenoid.set(DoubleSolenoid.Value.kReverse);
+			m_gear = 2;
+		}
 	}
 	public int getGear() {
 		return m_gear;

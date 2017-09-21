@@ -56,7 +56,7 @@ public class DrivelineSubsystem extends PIDSubsystem {
 	 * @param useAutoMode True = Automatic and False = Manual
 	 */
 	public void initDriveline(int gear, boolean useMiniCims, boolean useAutoMode) {
-		m_robotDrive.setGear(gear);
+		m_robotDrive.initGear(gear);
 		m_robotDrive.setUseMiniCIMs(useMiniCims);
 		m_robotDrive.setIsGearAutomaticMode(useAutoMode);
 		m_robotDrive.setInvertedMotor(MotorSide.KLEFT, true);
