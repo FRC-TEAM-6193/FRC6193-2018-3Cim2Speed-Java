@@ -17,6 +17,7 @@ import org.usfirst.frc.team6193.robot.RobotMap;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.MotorSafetyHelper;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Timer;
 
 import com.ctre.CANTalon;
@@ -260,6 +261,9 @@ public class RobotDrive_3C2S implements MotorSafety {
 		if (m_safetyHelper != null) {
 			m_safetyHelper.feed();
 		}
+	}
+	public  double getSpeed() {
+		return 0;
 	}
 	/**
 	 * New Algorithm

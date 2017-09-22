@@ -4,6 +4,7 @@ import org.usfirst.frc.team6193.robot.Calibrations;
 import org.usfirst.frc.team6193.robot.OI;
 import org.usfirst.frc.team6193.robot.RobotMap;
 import org.usfirst.frc.team6193.robot.commands.DrivelineDefaultCommand;
+import org.usfirst.frc.team6193.robot.lib.MyRobotDrive;
 import org.usfirst.frc.team6193.robot.lib.PIDMode;
 import org.usfirst.frc.team6193.robot.lib.RobotDrive_3C2S;
 import org.usfirst.frc.team6193.robot.lib.RobotDrive_3C2S.MotorSide;
@@ -11,6 +12,7 @@ import org.usfirst.frc.team6193.robot.lib.RobotDrive_3C2S.MotorSide;
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 /** Driveline contains two gearboxes driving 3 wheels on each side. 
@@ -31,7 +33,7 @@ public class DrivelineSubsystem extends PIDSubsystem {
 	private CANTalon m_leftCIMMotor1;
 	private CANTalon m_leftCIMMotor2;
 	private CANTalon m_leftMiniCIMMotor1;
-	private RobotDrive_3C2S m_robotDrive;
+	private MyRobotDrive m_robotDrive;
 	private ADXRS450_Gyro m_gyro;
 	//private double m_position_inch;
 	private PIDMode m_PIDMode = PIDMode.Position;
@@ -46,7 +48,7 @@ public class DrivelineSubsystem extends PIDSubsystem {
 		m_leftCIMMotor2 = new CANTalon(RobotMap.K_LEFT_CIM_MOTORCTRL_2_CANID);
 		m_leftMiniCIMMotor1 = new CANTalon(RobotMap.K_LEFT_MINICIM_MOTORCTRL_CANID);
 		m_gyro = new ADXRS450_Gyro();
-		m_robotDrive = new RobotDrive_3C2S(m_leftCIMMotor1, m_leftCIMMotor2, m_leftMiniCIMMotor1, m_rightCIMMotor1, m_rightCIMMotor2, m_rightMiniCIMMotor1);
+		m_robotDrive = new MyRobotDrive(m_leftCIMMotor1, m_leftCIMMotor2, m_leftMiniCIMMotor1, m_rightCIMMotor1, m_rightCIMMotor2, m_rightMiniCIMMotor1);
 		
 	}
 	/**
@@ -88,7 +90,7 @@ public class DrivelineSubsystem extends PIDSubsystem {
 		m_leftCIMMotor1.setEncPosition(0);
 		m_rightCIMMotor1.setEncPosition(0);
 	}
-	public RobotDrive_3C2S getRobotDrive() {
+	public MyRobotDrive getRobotDrive() {
 		return m_robotDrive;
 	}
 	/**
