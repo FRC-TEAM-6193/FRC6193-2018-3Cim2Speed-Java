@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.MotorSafetyHelper;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Timer;
 
-
 /**
  * 
  * @author Darryl Greathouse
