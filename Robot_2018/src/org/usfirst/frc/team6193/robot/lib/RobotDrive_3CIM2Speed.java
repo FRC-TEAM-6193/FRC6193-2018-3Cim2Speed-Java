@@ -56,10 +56,10 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 	 */
 	public RobotDrive_3CIM2Speed(SpeedController leftCIM1,SpeedController leftCIM2,SpeedController leftMiniCIM,SpeedController rightCIM1,SpeedController rightCIM2,SpeedController rightMiniCIM) {
 		m_leftCIMMotorController1 = requireNonNull(leftCIM1, "leftCIM1 cannot be null");
-		m_leftCIMMotorController2 = requireNonNull(leftCIM1, "leftCIM2 cannot be null");
+		m_leftCIMMotorController2 = requireNonNull(leftCIM2, "leftCIM2 cannot be null");
 		m_leftMiniCIMMotorController1 = leftMiniCIM;
-		m_rightCIMMotorController1 = requireNonNull(leftCIM1, "rightCIM1 cannot be null");
-		m_rightCIMMotorController2 = requireNonNull(leftCIM1, "rightCIM2 cannot be null");
+		m_rightCIMMotorController1 = requireNonNull(rightCIM1, "rightCIM1 cannot be null");
+		m_rightCIMMotorController2 = requireNonNull(rightCIM2, "rightCIM2 cannot be null");
 		m_rightMiniCIMMotorController1 = rightMiniCIM;
 		m_sensitivity = kDefaultSensitivity;
 		m_maxOutput = kDefaultMaxOutput;

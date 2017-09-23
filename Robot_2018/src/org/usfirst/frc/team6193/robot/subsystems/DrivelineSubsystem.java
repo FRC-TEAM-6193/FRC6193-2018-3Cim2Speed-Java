@@ -6,13 +6,13 @@ import org.usfirst.frc.team6193.robot.RobotMap;
 import org.usfirst.frc.team6193.robot.commands.DrivelineDefaultCommand;
 import org.usfirst.frc.team6193.robot.lib.MyRobotDrive;
 import org.usfirst.frc.team6193.robot.lib.PIDMode;
-import org.usfirst.frc.team6193.robot.lib.RobotDrive_3C2S;
+//import org.usfirst.frc.team6193.robot.lib.RobotDrive_3C2S;
 import org.usfirst.frc.team6193.robot.lib.RobotDrive_3C2S.MotorSide;
 
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.SpeedController;
+//import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 /** Driveline contains two gearboxes driving 3 wheels on each side. 

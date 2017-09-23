@@ -13,6 +13,7 @@ public class MyRobotDrive extends RobotDrive_3CIM2Speed{
 		
 		m_leftCIM1 = leftCIM1;
 		m_rightCIM1 = rightCIM1;
+		initDoubleSolenoids(15, 0, 2);
 		// TODO Auto-generated constructor stub
 	}
 
