@@ -32,7 +32,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		
 		driveline = new DrivelineSubsystem();
-		driveline.initDriveline(1, false, false); // Low gear, do not use minicims and manual gear shifting
+		driveline.initDriveline(1, false, true); // Low gear, do not use minicims and manual gear shifting
 		oi = new OI();
 	//	ropeClimber = new RopeClimberSubsystem();
 	//	gearHandler = new GearHandlerSubsystem();
@@ -43,7 +43,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("DrivelineAngle", driveline.getDrivelineAngle());
 		SmartDashboard.putNumber("DrivelineSpeed", driveline.getRobotDrive().getDrivelineSpeed());
 		SmartDashboard.putBoolean("DrivelineUseMiniCIM", driveline.getRobotDrive().getUseMiniCIMs());
-
+		SmartDashboard.putNumber("DrivelinePosition", driveline.getRobotDrive().getDrivelinePosition());
 		
 	}
 	/**

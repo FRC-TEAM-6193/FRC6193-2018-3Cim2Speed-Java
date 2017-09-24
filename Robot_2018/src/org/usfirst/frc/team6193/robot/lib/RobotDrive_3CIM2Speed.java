@@ -156,7 +156,7 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 	 *            your robot. Conversely, turn radius r = -ln(curve)*w for a given
 	 *            value of curve and wheelbase w.
 	 */
-	public void drive(double outputMagnitude, double curve) {
+	public void curveDrive(double outputMagnitude, double curve) {
 		final double leftOutput;
 		final double rightOutput;
 
@@ -184,6 +184,9 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 	}
 
 	/**
+	 * Possible convention change. What I want
+	 * + Forward and - Reverse
+	 * + Right Turn  - Left Turn
 	 * Arcade drive implements single stick driving. This function lets you directly
 	 * provide joystick values from any source.
 	 *
@@ -201,45 +204,35 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 
 		// square the inputs (while preserving the sign) to increase fine control
 		// while permitting full power
-		if (moveValue >= 0.0) {
-			moveValue = moveValue * moveValue;
-		} else {
-			moveValue = -(moveValue * moveValue);
-		}
-		if (rotateValue >= 0.0) {
-			rotateValue = rotateValue * rotateValue;
-		} else {
-			rotateValue = -(rotateValue * rotateValue);
-		}
-
+		moveValue = moveValue >= 0 ? Math.pow(moveValue, 2) : -Math.pow(moveValue, 2);
+		rotateValue = rotateValue >= 0 ? Math.pow(rotateValue, 2) : -Math.pow(rotateValue, 2);
+		
 		if (moveValue > 0.0) {
 			if (rotateValue > 0.0) {
-				leftMotorSpeed = moveValue - rotateValue;
-				rightMotorSpeed = Math.max(moveValue, rotateValue);
+				rightMotorSpeed = moveValue - rotateValue;
+				leftMotorSpeed = Math.max(moveValue, rotateValue);
 			} else {
-				leftMotorSpeed = Math.max(moveValue, -rotateValue);
-				rightMotorSpeed = moveValue + rotateValue;
+				rightMotorSpeed = Math.max(moveValue, -rotateValue);
+				leftMotorSpeed = moveValue + rotateValue;
 			}
 		} else {
 			if (rotateValue > 0.0) {
-				leftMotorSpeed = -Math.max(-moveValue, rotateValue);
-				rightMotorSpeed = moveValue + rotateValue;
+				rightMotorSpeed = -Math.max(-moveValue, rotateValue);
+				leftMotorSpeed = moveValue + rotateValue;
 			} else {
-				leftMotorSpeed = moveValue - rotateValue;
-				rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
+				rightMotorSpeed = moveValue - rotateValue;
+				leftMotorSpeed = -Math.max(-moveValue, -rotateValue);
 			}
 		}
 
 		setLeftRightMotorOutputs(leftMotorSpeed, rightMotorSpeed);
 	}
 
-	
-
-	
 	/**
 	 * Limit motor values to the -1.0 to +1.0 range.
 	 */
 	protected static double limit(double num) {
+
 		if (num > 1.0) {
 			return 1.0;
 		}
@@ -248,8 +241,6 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 		}
 		return num;
 	}
-
-
 
 	/**
 	 * Initialize the gears to 1st gear
@@ -308,6 +299,7 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 		//double rightMotorSpeed = m_rightCIMMotor1.getSpeed();
 		double average; //(leftMotorSpeed + rightMotorSpeed) / 2.0;
 		average = getDrivelineSpeed();
+		average = Math.abs(average);
 		if((Timer.getFPGATimestamp() - m_lastShiftTime) < 0.5) {
 			return getGear();
 		}

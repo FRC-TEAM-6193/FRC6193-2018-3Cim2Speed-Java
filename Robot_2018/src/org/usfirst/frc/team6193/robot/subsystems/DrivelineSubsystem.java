@@ -61,7 +61,8 @@ public class DrivelineSubsystem extends PIDSubsystem {
 		m_robotDrive.initGear(gear);
 		m_robotDrive.setUseMiniCIMs(useMiniCims);
 		m_robotDrive.setIsGearAutomaticMode(useAutoMode);
-		m_robotDrive.setInvertedMotor(MotorSide.KLEFT, true);
+		m_robotDrive.setInvertedMotor(MotorSide.KRIGHT, true);
+		m_robotDrive.resetDrivelinePosition();
 	}
 	/**
 	 * Default drive mode with Joysticks 
@@ -70,26 +71,14 @@ public class DrivelineSubsystem extends PIDSubsystem {
 		
 		// Thumbstick
 		double rotate = OI.xbox1.getRawAxis(0);
-		// Left Trigger Forward, Right Trigger Reverse, Assumed 0 to 1.
+		// Left Trigger Forward, Right Trigger Reverse
 		double leftTrigger = OI.xbox1.getRawAxis(2);
 		double rightTrigger = OI.xbox1.getRawAxis(3);
-		double move = leftTrigger - rightTrigger;
+		double move = rightTrigger - leftTrigger;
 
     	Drive(move,rotate);
 	}
-	/**
-	 * 
-	 * @return The current position in inches.
-	 */
-	private double getDrivelinePosition() {
-		double leftPosition = m_leftCIMMotor1.getEncPosition();
-		double rightPosition = m_rightCIMMotor1.getEncPosition();
-		return ((leftPosition + rightPosition) /2.0) / Calibrations.k_DrivelineEncoderRatio_CntPerInch;
-	}
-	public void resetDrivelinePosition() {
-		m_leftCIMMotor1.setEncPosition(0);
-		m_rightCIMMotor1.setEncPosition(0);
-	}
+
 	public MyRobotDrive getRobotDrive() {
 		return m_robotDrive;
 	}
@@ -112,7 +101,7 @@ public class DrivelineSubsystem extends PIDSubsystem {
 	@Override
 	protected double returnPIDInput() {
 		if(m_PIDMode == PIDMode.Position) {
-			return getDrivelinePosition();
+			return m_robotDrive.getDrivelinePosition();
 		}else {
 			return m_gyro.getAngle();
 		}
