@@ -16,7 +16,7 @@ Robot design is to handle 2017 game. The following base robot design is:
     * Using JVN-DesignCalc the speeds are a calculated 4.43 and 16.28 ft/s
     * Redesigned RobotDrive class to handle
         * 3 CIMs with the 3rd CIM as a miniCIM
-        * Automatic gear shifting for up-shift at ~4000 rpm and down-shift at ~50 rpm.
+        * Automatic gear shifting for up-shift at ~6000 rpm and down-shift at ~50 rpm.
         * Manual shifting mode.
         * Arcade style of Drive with triggers for forward and reverse
         * Pneumatics that control the solenoids for shifting 
