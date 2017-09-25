@@ -25,6 +25,7 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 	public static final double kDefaultExpirationTime = 0.1;
 	public static final double kDefaultSensitivity = 0.5;
 	public static final double kDefaultMaxOutput = 1.0;
+	public static final double kGearAutoShiftTurnIndicator = 0.1;
 	protected double m_sensitivity;
 	protected double m_maxOutput;
 	protected MotorSafetyHelper m_safetyHelper;
@@ -204,8 +205,8 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 
 		// square the inputs (while preserving the sign) to increase fine control
 		// while permitting full power
-		moveValue = moveValue >= 0 ? Math.pow(moveValue, 2) : -Math.pow(moveValue, 2);
-		rotateValue = rotateValue >= 0 ? Math.pow(rotateValue, 2) : -Math.pow(rotateValue, 2);
+		moveValue = Math.copySign(moveValue * moveValue, moveValue);
+		rotateValue = Math.copySign(rotateValue * rotateValue, rotateValue);
 		
 		if (moveValue > 0.0) {
 			if (rotateValue > 0.0) {
@@ -290,6 +291,17 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 	 * This needs TESTING and improvement
 	 * Unsure on getSpeed vs getEncVelocity
 	 * The speed limit needs to be tested and calibrated
+	 * 
+	 * Issues:
+	 * 1. encoder is at output and low/high gear are different speeds.
+	 * 2. Turning causes a shift, this would be bad
+	 *   a. Possible to disable upshift if rotate greater than move.
+	 *   
+	 * 3. Suggest leaving in second gear and make them shift when they want to
+	 *    a. Easier to calibrate with limited time
+	 *    b. Easier for them to understand
+	 *    c. Leave auto in for possible improvements
+	 *    
 	 * @return
 	 */
 	private int getNewAutomaticGear() {
@@ -304,9 +316,9 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 			return getGear();
 		}
 		
-		if (average <= RobotMap.GEAR_AUTOMATIC_LOW_VALUE) {
+		if (average <= RobotMap.GEAR_AUTOMATIC_DOWNSHIFT_SPEED) {
 			return 1;
-		} else if (average > RobotMap.GEAR_AUTOMATIC_UPSHIFT_VALUE) {
+		} else if (average > RobotMap.GEAR_AUTOMATIC_UPSHIFT_SPEED) {
 			return 2;
 		}else {
 			 return getGear();
@@ -343,7 +355,10 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 	public void setLeftRightMotorOutputs(double leftOutput, double rightOutput) {
 
 		if(getIsGearAutomaticMode()) {
-			setGear(getNewAutomaticGear());
+			if(Math.abs(leftOutput + rightOutput ) < kGearAutoShiftTurnIndicator) {
+				setGear(getNewAutomaticGear());
+			}
+			
 		}
 	
 		if (m_leftCIMMotorController1 != null) {

@@ -37,6 +37,7 @@ public class Robot extends IterativeRobot {
 	//	ropeClimber = new RopeClimberSubsystem();
 	//	gearHandler = new GearHandlerSubsystem();
 	}
+	@Override
 	public void robotPeriodic() {
 		SmartDashboard.putBoolean("DrivelineIsAutomatic", driveline.getRobotDrive().getIsGearAutomaticMode());
 		SmartDashboard.putNumber("DrivelineGear", driveline.getRobotDrive().getGear());

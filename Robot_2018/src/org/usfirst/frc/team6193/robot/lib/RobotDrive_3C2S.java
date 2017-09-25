@@ -289,9 +289,9 @@ public class RobotDrive_3C2S implements MotorSafety {
 			return getGear();
 		}
 		
-		if (average <= RobotMap.GEAR_AUTOMATIC_LOW_VALUE) {
+		if (average <= RobotMap.GEAR_AUTOMATIC_DOWNSHIFT_SPEED) {
 			return 1;
-		} else if (average > RobotMap.GEAR_AUTOMATIC_UPSHIFT_VALUE) {
+		} else if (average > RobotMap.GEAR_AUTOMATIC_UPSHIFT_SPEED) {
 			return 2;
 		}else {
 			 return getGear();
