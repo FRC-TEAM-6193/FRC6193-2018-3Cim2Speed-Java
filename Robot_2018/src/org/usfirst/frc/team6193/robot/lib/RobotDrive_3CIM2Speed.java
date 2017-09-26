@@ -43,17 +43,21 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 	protected int m_gear = 1;
 	protected double m_lastShiftTime = 0;
 	protected double m_drivelineSpeed = 0;
-	
-	/**
+	private double leftFiltered = 0;
+	private double rightFiltered = 0;
+	private boolean shiftFinished = false;
+	private double shiftStartTime = 0.0;
+
+	/**3CIM 2Speed gearbox robotdrive constructor </br>
+	 * Left and Right SpeedControllers 1 and 2 are required. </br>
+	 * MiniCIM SpeedControllers may be null 
 	 * 
-	 * @param leftCIM1  Motor Controller for left CIM #1
-	 * @param leftCIM2
-	 * @param leftMiniCIM
-	 * @param rightCIM1
-	 * @param rightCIM2
-	 * @param rightMiniCIM
-	 * 
-	 * 
+	 * @param leftCIM1 SpeedController
+	 * @param leftCIM2 SpeedController
+	 * @param leftMiniCIM SpeedController may be null
+	 * @param rightCIM1 SpeedController
+	 * @param rightCIM2 SpeedController
+	 * @param rightMiniCIM SpeedController may be null
 	 */
 	public RobotDrive_3CIM2Speed(SpeedController leftCIM1,SpeedController leftCIM2,SpeedController leftMiniCIM,SpeedController rightCIM1,SpeedController rightCIM2,SpeedController rightMiniCIM) {
 		m_leftCIMMotorController1 = requireNonNull(leftCIM1, "leftCIM1 cannot be null");
@@ -67,8 +71,20 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 		setupMotorSafety();
 		
 	}
+	/**
+	 * 
+	 * @return Abstract method to return the Driveline Speed </br>
+	 * 
+	 * This is usually done through a encoder connected to the driveline
+	 */
 	public abstract double getDrivelineSpeed();
 	
+	/**
+	 * 
+	 * @param CANID The CANID of the PCM, usually 0
+	 * @param leftIndex Left gearbox double solenoid start index on PCM output drive  
+	 * @param rightIndex Right gearbox double solenoid start index on PCM output drive
+	 */
 	public void initDoubleSolenoids(int CANID, int leftIndex, int rightIndex) {
 		m_rightGearSolenoid = new DoubleSolenoid(CANID,rightIndex,rightIndex + 1);
 		m_leftGearSolenoid = new DoubleSolenoid(CANID,leftIndex,leftIndex + 1);
@@ -185,16 +201,13 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 	}
 
 	/**
-	 * Possible convention change. What I want
-	 * + Forward and - Reverse
-	 * + Right Turn  - Left Turn
-	 * Arcade drive implements single stick driving. This function lets you directly
-	 * provide joystick values from any source.
-	 *
-	 * @param moveValue
-	 *            The value to use for forwards/backwards
-	 * @param rotateValue
-	 *            The value to use for the rotate right/left
+	 * 
+	 * @param moveValue Move value from -1 to 1
+	 * @param rotateValue Rotate value from -1 to 1 </br>
+	 * 
+	 * Note:</br>
+	 * Right and left motor speeds were reversed from original to match wiring for green forward on CANTalons
+	 * 
 	 */
 	public void arcadeDrive(double moveValue, double rotateValue) {
 		double leftMotorSpeed;
@@ -261,7 +274,12 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 	public int getGear() {
 		return m_gear;
 	}
-
+	/**
+	 * 
+	 * @param gear gear as integer of 1 for low gear and 2 for high gear</br>
+	 * 
+	 * Calling this repeatedly with the current gear will do nothing
+	 */
 	public void setGear(int gear) {
 		if(m_gear == 1 && gear == 2) {
 			m_leftGearSolenoid.set(DoubleSolenoid.Value.kReverse);
@@ -281,35 +299,17 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 
 	}
 	/**
-	 * New Algorithm
-	 * 1. Shift up at ~4000 rpm
-	 * 2. Shift down when <50 or ~0 rpm
-	 * 3. Don't shift if last shift was less than 1/2 second ago
-	 * This will prevent changes while slowing down and 
-	 * slowing down from high gear takes no current. Keeps it consistemt.
+	 * Simple algorithm to shift up at the high rpm of the low gear and </br>
+	 * shift down when almost at a stop.</b>
+	 * A time limit of 1/2 between shifts is also added.</br>
 	 * 
-	 * This needs TESTING and improvement
-	 * Unsure on getSpeed vs getEncVelocity
-	 * The speed limit needs to be tested and calibrated
-	 * 
-	 * Issues:
-	 * 1. encoder is at output and low/high gear are different speeds.
-	 * 2. Turning causes a shift, this would be bad
-	 *   a. Possible to disable upshift if rotate greater than move.
-	 *   
-	 * 3. Suggest leaving in second gear and make them shift when they want to
-	 *    a. Easier to calibrate with limited time
-	 *    b. Easier for them to understand
-	 *    c. Leave auto in for possible improvements
-	 *    
-	 * @return
+	 * Note:</br>
+	 * Turning causes shifts and this is undesirable. Fix for that is done where left right motor speeds are set.
+	 * @return the selected gear
 	 */
 	private int getNewAutomaticGear() {
-		// The speeds should be directionless. If EncVelocity works better, get Absolute
-		// value
-		//double leftMotorSpeed = m_leftCIMMotor1.getSpeed();
-		//double rightMotorSpeed = m_rightCIMMotor1.getSpeed();
-		double average; //(leftMotorSpeed + rightMotorSpeed) / 2.0;
+
+		double average; 
 		average = getDrivelineSpeed();
 		average = Math.abs(average);
 		if((Timer.getFPGATimestamp() - m_lastShiftTime) < 0.5) {
@@ -352,10 +352,39 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 	 * @param leftOutput
 	 * @param rightOutput
 	 */
-	public void setLeftRightMotorOutputs(double leftOutput, double rightOutput) {
 
+	public void setLeftRightMotorOutputs(double leftOutput, double rightOutput) {
+		
+
+		int gear;
+		double ratio = 0.25;  // Value gets the delay to 0.5 seconds
 		if(getIsGearAutomaticMode()) {
+			// Attempt to prevent shifting during a turn.
 			if(Math.abs(leftOutput + rightOutput ) < kGearAutoShiftTurnIndicator) {
+				// TODO: cause a ramp to new speed. Ratio is 3.68:1 which causes abrupt change during a shift
+				// 2400 max speed at low gear switching to HI is a new speed of 8700 speed on raw encoder.
+				// Shift point is 2400 which turns out to be input of 0.9 at low which is 0.24 speed of high gear
+				// Ramp over 0.5 seconds from 0.24 to input value.
+				gear = getGear();
+				if(getNewAutomaticGear() == 2 && gear == 1) {
+					leftFiltered = leftOutput / 3.68;
+					rightFiltered = rightOutput / 3.68;
+					shiftFinished = false;
+					shiftStartTime = Timer.getFPGATimestamp();
+				}
+				
+				leftFiltered = leftFiltered + Math.copySign(ratio, leftOutput);
+				rightFiltered = rightFiltered + Math.copySign(ratio, rightOutput);
+				if(!shiftFinished && Timer.getFPGATimestamp() > shiftStartTime + 0.5) {
+					shiftFinished = true;
+					
+				}else {
+					if(!shiftFinished) {
+						leftOutput = leftFiltered;
+						rightOutput = rightFiltered;
+					}
+					
+				}
 				setGear(getNewAutomaticGear());
 			}
 			
