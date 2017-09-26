@@ -357,34 +357,33 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 		
 
 		int gear;
-		double ratio = 0.25;  // Value gets the delay to 0.5 seconds
+		double ratio = 0.025;  // Value sets the delay to 0.5 seconds
 		if(getIsGearAutomaticMode()) {
 			// Attempt to prevent shifting during a turn.
 			if(Math.abs(leftOutput + rightOutput ) < kGearAutoShiftTurnIndicator) {
 				// TODO: cause a ramp to new speed. Ratio is 3.68:1 which causes abrupt change during a shift
 				// 2400 max speed at low gear switching to HI is a new speed of 8700 speed on raw encoder.
 				// Shift point is 2400 which turns out to be input of 0.9 at low which is 0.24 speed of high gear
-				// Ramp over 0.5 seconds from 0.24 to input value.
-				gear = getGear();
-				if(getNewAutomaticGear() == 2 && gear == 1) {
-					leftFiltered = leftOutput / 3.68;
+				// Ramp over 0.5 seconds from 0.025 to input value.
+				gear = getGear();                                                     // Get the current gear
+				if(getNewAutomaticGear() == 2 && gear == 1) {                         // Is this the start of a up shift
+					leftFiltered = leftOutput / 3.68;                                 // Start at the same speed as low gear
 					rightFiltered = rightOutput / 3.68;
-					shiftFinished = false;
-					shiftStartTime = Timer.getFPGATimestamp();
+					shiftFinished = false;                                            // Shift has started
+					shiftStartTime = Timer.getFPGATimestamp();                        // Time the shift started
 				}
 				
-				leftFiltered = leftFiltered + Math.copySign(ratio, leftOutput);
+				leftFiltered = leftFiltered + Math.copySign(ratio, leftOutput);       // Add a constant value with the correct sign    
 				rightFiltered = rightFiltered + Math.copySign(ratio, rightOutput);
-				if(!shiftFinished && Timer.getFPGATimestamp() > shiftStartTime + 0.5) {
-					shiftFinished = true;
-					
-				}else {
-					if(!shiftFinished) {
-						leftOutput = leftFiltered;
+				if(!shiftFinished) {                                                  // Do this until shift is complete
+					if(Timer.getFPGATimestamp() > shiftStartTime + 0.5) {             // 1/2 second shift time
+						shiftFinished = true;                                         // Time expired so set shift complete
+					}else {
+						leftOutput = leftFiltered;                                    // Replace the outputs with the new value
 						rightOutput = rightFiltered;
 					}
-					
 				}
+
 				setGear(getNewAutomaticGear());
 			}
 			
