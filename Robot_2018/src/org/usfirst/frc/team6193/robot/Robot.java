@@ -24,6 +24,9 @@ public class Robot extends IterativeRobot {
 	public static RopeClimberSubsystem ropeClimber;
 	public static GearHandlerSubsystem gearHandler;
 
+	public void free() {
+		
+	}
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -33,9 +36,10 @@ public class Robot extends IterativeRobot {
 		
 		driveline = new DrivelineSubsystem();
 		driveline.initDriveline(1, false, true); // Low gear, do not use minicims and manual gear shifting
+		ropeClimber = new RopeClimberSubsystem();
+		gearHandler = new GearHandlerSubsystem();
 		oi = new OI();
-	//	ropeClimber = new RopeClimberSubsystem();
-	//	gearHandler = new GearHandlerSubsystem();
+
 	}
 	@Override
 	public void robotPeriodic() {
