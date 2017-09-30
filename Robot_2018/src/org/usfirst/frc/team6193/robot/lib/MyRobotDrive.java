@@ -17,6 +17,7 @@ public class MyRobotDrive extends RobotDrive_3CIM2Speed{
 		m_rightCIM1 = rightCIM1;
 		
 		initDoubleSolenoids(15, 0, 2);
+		setGearboxShiftSpreadRatio(3.68);
 		// TODO Auto-generated constructor stub
 	}
 	/**

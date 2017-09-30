@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.MotorSafetyHelper;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * 
@@ -38,15 +39,16 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 	protected SpeedController m_rightMiniCIMMotorController1;
 	protected DoubleSolenoid m_leftGearSolenoid;
 	protected DoubleSolenoid m_rightGearSolenoid;
-	protected boolean m_useMiniCIMs = true;
-	protected boolean m_gearAutomaticMode = true;
-	protected int m_gear = 1;
-	protected double m_lastShiftTime = 0;
-	protected double m_drivelineSpeed = 0;
-	private double leftFiltered = 0;
-	private double rightFiltered = 0;
-	private boolean shiftFinished = false;
-	private double shiftStartTime = 0.0;
+	private boolean m_useMiniCIMs = true;
+	private boolean m_gearAutomaticMode = true;
+	private int m_gear = 1;
+	private double m_lastShiftTime = 0;
+	//private double m_drivelineSpeed = 0;
+	private double m_leftFiltered = 0;
+	private double m_rightFiltered = 0;
+	private boolean m_shiftFinished = false;
+	private double m_shiftStartTime = 0.0;
+	private double m_gearboxShiftSpreadRatio = 3.68;
 
 	/**3CIM 2Speed gearbox robotdrive constructor </br>
 	 * Left and Right SpeedControllers 1 and 2 are required. </br>
@@ -89,7 +91,18 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 		m_rightGearSolenoid = new DoubleSolenoid(CANID,rightIndex,rightIndex + 1);
 		m_leftGearSolenoid = new DoubleSolenoid(CANID,leftIndex,leftIndex + 1);
 	}
-	
+	/**
+	 * 
+	 * @param spread The gearbox spread used for shift. Default is 3.68</br>
+	 * 
+	 * Adjust this for the speed that is set after the upshift occurs.
+	 * A low gear speed of 2400 will result in a 2400x3.68 when shifting.</br>
+	 * This parameter is used to set the upshift speed in hi gear to 2400 and ramp to full speed over 0.5 seconds.</br>
+	 * This allows for a more gradual shift. Set the value lower than your spread to gain more power during the shift.
+	 */
+	public void setGearboxShiftSpreadRatio(double spread) {
+		m_gearboxShiftSpreadRatio = spread;
+	}
 	/**
 	 * Invert a motor direction. This is used when a motor should run in the
 	 * opposite direction as the drive code would normally run it. Motors that are
@@ -359,28 +372,30 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 		int gear;
 		double ratio = 0.025;  // Value sets the delay to 0.5 seconds
 		if(getIsGearAutomaticMode()) {
+			SmartDashboard.putNumber("leftOutput", leftOutput);
+			SmartDashboard.putNumber("rightOutput", rightOutput);
 			// Attempt to prevent shifting during a turn.
-			if(Math.abs(leftOutput + rightOutput ) < kGearAutoShiftTurnIndicator) {
-				// TODO: cause a ramp to new speed. Ratio is 3.68:1 which causes abrupt change during a shift
+			if(Math.abs(leftOutput - rightOutput ) < kGearAutoShiftTurnIndicator) {
+				// Ratio is 3.68:1 which causes abrupt change during a shift
 				// 2400 max speed at low gear switching to HI is a new speed of 8700 speed on raw encoder.
 				// Shift point is 2400 which turns out to be input of 0.9 at low which is 0.24 speed of high gear
 				// Ramp over 0.5 seconds from 0.025 to input value.
 				gear = getGear();                                                     // Get the current gear
 				if(getNewAutomaticGear() == 2 && gear == 1) {                         // Is this the start of a up shift
-					leftFiltered = leftOutput / 3.68;                                 // Start at the same speed as low gear
-					rightFiltered = rightOutput / 3.68;
-					shiftFinished = false;                                            // Shift has started
-					shiftStartTime = Timer.getFPGATimestamp();                        // Time the shift started
+					m_leftFiltered = leftOutput / m_gearboxShiftSpreadRatio;                                 // Start at the same speed as low gear
+					m_rightFiltered = rightOutput / m_gearboxShiftSpreadRatio;
+					m_shiftFinished = false;                                            // Shift has started
+					m_shiftStartTime = Timer.getFPGATimestamp();                        // Time the shift started
 				}
 				
-				leftFiltered = leftFiltered + Math.copySign(ratio, leftOutput);       // Add a constant value with the correct sign    
-				rightFiltered = rightFiltered + Math.copySign(ratio, rightOutput);
-				if(!shiftFinished) {                                                  // Do this until shift is complete
-					if(Timer.getFPGATimestamp() > shiftStartTime + 0.5) {             // 1/2 second shift time
-						shiftFinished = true;                                         // Time expired so set shift complete
+				m_leftFiltered = m_leftFiltered + Math.copySign(ratio, leftOutput);       // Add a constant value with the correct sign    
+				m_rightFiltered = m_rightFiltered + Math.copySign(ratio, rightOutput);
+				if(!m_shiftFinished) {                                                  // Do this until shift is complete
+					if(Timer.getFPGATimestamp() > m_shiftStartTime + 0.5) {             // 1/2 second shift time
+						m_shiftFinished = true;                                         // Time expired so set shift complete
 					}else {
-						leftOutput = leftFiltered;                                    // Replace the outputs with the new value
-						rightOutput = rightFiltered;
+						leftOutput = m_leftFiltered;                                    // Replace the outputs with the new value
+						rightOutput = m_rightFiltered;
 					}
 				}
 
