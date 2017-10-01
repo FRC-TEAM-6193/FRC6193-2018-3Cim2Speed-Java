@@ -22,8 +22,6 @@ Robot design is to handle 2017 game. The following base robot design is:
             - No shifting during turning
             - Down shift at very low RPM, almost stop.
         * Manual shifting mode.
-        * Arcade style of Drive with triggers for forward and reverse
-        * 
         * Pneumatics that control the solenoids for shifting 
 * Initial Testing
     * High speed was at the limit of uncontrollable by the students. Perfect.
