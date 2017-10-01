@@ -6,6 +6,7 @@ import org.usfirst.frc.team6193.robot.OI;
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -13,11 +14,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class GearHandlerSubsystem extends Subsystem {
 
 	private CANTalon m_gearHandlerSpinMotor;
-	private CANTalon m_gearHandlerRotateMotor;
+	private CANTalon m_gearHandlerLiftMotor;
 	
 	public GearHandlerSubsystem() {
 		m_gearHandlerSpinMotor = new CANTalon(RobotMap.K_GEARAHNDLER_SPIN_MOTCTRL_CANID);
-		m_gearHandlerRotateMotor = new CANTalon(RobotMap.K_GEARAHNDLER_ROTATE_MOTCTRL_CANID);
+		m_gearHandlerLiftMotor = new CANTalon(RobotMap.K_GEARAHNDLER_LIFT_MOTCTRL_CANID);
 	}
 	public void HandlerGear() {
 		
@@ -33,12 +34,13 @@ public class GearHandlerSubsystem extends Subsystem {
 			}else if(X < -0.4) {
 				X = -0.4;
 			}
-			m_gearHandlerRotateMotor.set(X);
-			
+			m_gearHandlerLiftMotor.set(X);
+			SmartDashboard.putNumber("GearLift_X", X);
 		}else {
-			m_gearHandlerRotateMotor.set(0.0);
+			m_gearHandlerLiftMotor.set(0.0);
 			m_gearHandlerSpinMotor.set(0.0);
 		}
+		
 	}
     public void initDefaultCommand() {
         setDefaultCommand(new GearHandlerDefaultCommand());

@@ -21,7 +21,7 @@ public class RobotMap {
 	public static final int K_LEFT_CIM_MOTORCTRL_2_CANID = 5;
 	public static final int K_LEFT_MINICIM_MOTORCTRL_CANID = 6;
 	public static final int K_ROPEClIMBER_MOTCTRL_CANID = 7;
-	public static final int K_GEARAHNDLER_SPIN_MOTCTRL_CANID = 0;
-	public static final int K_GEARAHNDLER_ROTATE_MOTCTRL_CANID = 0;
+	public static final int K_GEARAHNDLER_SPIN_MOTCTRL_CANID = 8;
+	public static final int K_GEARAHNDLER_LIFT_MOTCTRL_CANID = 7;
 
 }
