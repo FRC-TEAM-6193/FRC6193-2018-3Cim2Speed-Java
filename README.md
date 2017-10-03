@@ -1,4 +1,4 @@
-Welcome to the FRC6193-2018-3Cim2Speed-Java wiki!
+ Welcome to the FRC6193-2018-3Cim2Speed-Java wiki!
 # Introduction
 Code related to FRC 2017 rebuilt robot to test a 3 CIM dual speed gearbox. Competition with 2017 field to be held on October 14 in Midland Mi.
 # Team Information
@@ -15,10 +15,13 @@ Robot design is to handle 2017 game. The following base robot design is:
     * 3rd Stage [60:24]
     * Using JVN-DesignCalc the speeds are a calculated 4.43 and 16.28 ft/s
     * Redesigned RobotDrive class to handle
-        * 3 CIMs with the 3rd CIM as a miniCIM
-        * Automatic gear shifting for up-shift at ~6000 rpm and down-shift at ~50 rpm.
+        * 3 CIMs with the 3rd CIM as a miniCIM and enabled by Dashboard if needed.
+        * Automatic gear shifting
+            - Upshift at high speed
+            - Gradual upshift with 0.5 ramp up.
+            - No shifting during turning
+            - Down shift at very low RPM, almost stop.
         * Manual shifting mode.
-        * Arcade style of Drive with triggers for forward and reverse
         * Pneumatics that control the solenoids for shifting 
 * Initial Testing
     * High speed was at the limit of uncontrollable by the students. Perfect.
