@@ -29,7 +29,7 @@ public class RopeClimberSubsystem extends Subsystem {
 				speed = 0;
 			}
 		}
-		m_ropeClimberMotor.set(speed);
+		m_ropeClimberMotor.set(Math.abs(speed));
 	}
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.

@@ -36,9 +36,9 @@ public class InterpolateGetTime {
 		
 		/**/
 		if(Inp <= XTbl[0]){
-			Outp = XTbl[0];
+			Outp = YTbl[0];
 		}else if(Inp >= XTbl[XTbl.length -1]){
-			Outp = XTbl[XTbl.length -1];
+			Outp = YTbl[YTbl.length -1];
 		}else {
 			index = 0;
 			while(XTbl[index + 1] < Inp){

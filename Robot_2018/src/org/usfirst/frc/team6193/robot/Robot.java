@@ -1,9 +1,12 @@
 
 package org.usfirst.frc.team6193.robot;
 
+import org.usfirst.frc.team6193.robot.commands.AutonomousCommandGroup;
 import org.usfirst.frc.team6193.robot.subsystems.DrivelineSubsystem;
 import org.usfirst.frc.team6193.robot.subsystems.GearHandlerSubsystem;
 import org.usfirst.frc.team6193.robot.subsystems.RopeClimberSubsystem;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,7 +26,11 @@ public class Robot extends IterativeRobot {
 	public static DrivelineSubsystem driveline;
 	public static RopeClimberSubsystem ropeClimber;
 	public static GearHandlerSubsystem gearHandler;
-
+	public static DigitalInput DIO1 = new DigitalInput(1);
+	public static DigitalInput DIO2 = new DigitalInput(2);
+	public static DigitalInput DIO3 = new DigitalInput(3);
+	public static DigitalInput DIO4 = new DigitalInput(4);
+	AutonomousCommandGroup auto;
 	public void free() {
 		
 	}
@@ -38,11 +45,16 @@ public class Robot extends IterativeRobot {
 		driveline.initDriveline(1, false, true); // Low gear, do not use minicims and manual gear shifting
 		ropeClimber = new RopeClimberSubsystem();
 		gearHandler = new GearHandlerSubsystem();
+		auto = new AutonomousCommandGroup();
 		oi = new OI();
 
 	}
 	@Override
 	public void robotPeriodic() {
+		SmartDashboard.putBoolean("DIO1", DIO1.get());
+		SmartDashboard.putBoolean("DIO2", DIO2.get());
+		SmartDashboard.putBoolean("DIO3", DIO3.get());
+		SmartDashboard.putBoolean("DIO4", DIO4.get());
 		SmartDashboard.putBoolean("DrivelineIsAutomatic", driveline.getRobotDrive().getIsGearAutomaticMode());
 		SmartDashboard.putNumber("DrivelineGear", driveline.getRobotDrive().getGear());
 		SmartDashboard.putNumber("DrivelineAngle", driveline.getDrivelineAngle());
@@ -81,6 +93,9 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 
 
+		auto.AutonomousInit();
+		auto.start();
+		
 	}
 
 	/**
