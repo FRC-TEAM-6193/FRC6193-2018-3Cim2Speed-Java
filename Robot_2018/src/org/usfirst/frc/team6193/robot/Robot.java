@@ -7,6 +7,7 @@ import org.usfirst.frc.team6193.robot.subsystems.GearHandlerSubsystem;
 import org.usfirst.frc.team6193.robot.subsystems.RopeClimberSubsystem;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,6 +24,7 @@ public class Robot extends IterativeRobot {
 
 
 	public static OI oi;
+	public static PowerDistributionPanel pdp;
 	public static DrivelineSubsystem driveline;
 	public static RopeClimberSubsystem ropeClimber;
 	public static GearHandlerSubsystem gearHandler;
@@ -45,6 +47,8 @@ public class Robot extends IterativeRobot {
 		driveline.initDriveline(1, false, true); // Low gear, do not use minicims and manual gear shifting
 		ropeClimber = new RopeClimberSubsystem();
 		gearHandler = new GearHandlerSubsystem();
+		pdp = new PowerDistributionPanel();
+	
 		auto = new AutonomousCommandGroup();
 		oi = new OI();
 
@@ -61,7 +65,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("DrivelineSpeed", driveline.getRobotDrive().getDrivelineSpeed());
 		SmartDashboard.putBoolean("DrivelineUseMiniCIM", driveline.getRobotDrive().getUseMiniCIMs());
 		SmartDashboard.putNumber("DrivelinePosition", driveline.getRobotDrive().getDrivelinePosition());
-		
+		SmartDashboard.putNumber("GearCurrent", pdp.getCurrent(11));
 	}
 	/**
 	 * This function is called once each time the robot enters Disabled mode.

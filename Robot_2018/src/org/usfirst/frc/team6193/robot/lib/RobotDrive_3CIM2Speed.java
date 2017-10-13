@@ -232,7 +232,7 @@ public abstract class RobotDrive_3CIM2Speed implements MotorSafety{
 		// square the inputs (while preserving the sign) to increase fine control
 		// while permitting full power
 		moveValue = Math.copySign(moveValue * moveValue, moveValue);
-		rotateValue = Math.copySign(rotateValue * rotateValue, rotateValue);
+		rotateValue = Math.copySign(rotateValue * rotateValue * rotateValue, rotateValue);
 		
 		if (moveValue > 0.0) {
 			if (rotateValue > 0.0) {
